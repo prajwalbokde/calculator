@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prajwal_Calculator</title>
+
+<style>
+  body {
+    background: #ab9a9a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+
+  .calc {
+    background: #2c272b;
+    padding: 20px;
+    border-radius: 12px;
+    width: 260px;
+  }
+
+  .display {
+    background: #000;
+    color: rgb(55, 255, 0);
+    font-size: 28px;
+    padding: 10px;
+    text-align: right;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  button {
+    padding: 14px;
+    font-size: 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #6d6565;
+    color: white;
+  }
+
+  button:hover {
+    background: #22931e;
+  }
+
+  .operator {
+    background: #ff9500;
+  }
+
+  .operator:hover {
+    background: #095ec0;
+  }
+
+  .wide {
+    grid-column: span 2;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="calc">
+  <div class="display" id="display">0</div>
+
+  <div class="buttons">
+    <button onclick="clearAll()">C</button>
+    <button onclick="backspace()">⌫</button>
+    <button onclick="percent()">%</button>
+    <button class="operator" onclick="append('/')">÷</button>
+
+    <button onclick="append('7')">7</button>
+    <button onclick="append('8')">8</button>
+    <button onclick="append('9')">9</button>
+    <button class="operator" onclick="append('*')">×</button>
+
+    <button onclick="append('4')">4</button>
+    <button onclick="append('5')">5</button>
+    <button onclick="append('6')">6</button>
+    <button class="operator" onclick="append('-')">−</button>
+
+    <button onclick="append('1')">1</button>
+    <button onclick="append('2')">2</button>
+    <button onclick="append('3')">3</button>
+    <button class="operator" onclick="append('+')">+</button>
+
+    <button class="wide" onclick="append('0')">0</button>
+    <button onclick="append('.')">.</button>
+    <button class="operator" onclick="calculate()">=</button>
+  </div>
+</div>
+
+<script>
+  let expression = "";
+
+  function updateDisplay() {
+    document.getElementById("display").innerText = expression || "0";
+  }
+
+  function append(val) {
+    expression += val;
+    updateDisplay();
+  }
+
+  function clearAll() {
+    expression = "";
+    updateDisplay();
+  }
+
+  function backspace() {
+    expression = expression.slice(0, -1);
+    updateDisplay();
+  }
+
+  function percent() {
+    if (expression) {
+      expression = (parseFloat(expression) / 100).toString();
+      updateDisplay();
+    }
+  }
+
+  function calculate() {
+    try {
+      expression = Function("return " + expression)().toString();
+      updateDisplay();
+    } catch {
+      expression = "";
+      document.getElementById("display").innerText = "Error";
+    }
+  }
+</script>
+
+</body>
+</html>
